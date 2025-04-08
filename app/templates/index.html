@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Code Explainer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Dark Mode Toggle -->
+        <button class="toggle-btn" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+
+        <h1 class="text-center">🔍 GitDecode</h1>
+
+        <!-- Search Form -->
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="query"
+            placeholder="Enter function or keyword (e.g., fibonacci)" required
+            value="{{ query }}">
+
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Search & Explain</button>
+        </form>
+
+        {% if result %}
+        <!-- Results Section -->
+        <hr class="my-4">
+        <h4>📦 Code Snippet</h4>
+        <div class="d-flex justify-content-end mb-2">
+            <button class="btn btn-outline-secondary btn-sm" onclick="copyCode()">📋 Copy Code</button>
+        </div>
+        <textarea id="codeSnippet" class="form-control mb-4" rows="10" readonly>{{ result }}</textarea>
+
+        <h4>🧠 GPT Explanation</h4>
+        <div class="alert alert-secondary explanation-box" role="alert">
+            {{ explanation | safe }}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Dark Mode & Copy Script -->
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+            }
+        }
+
+        function copyCode() {
+            const code = document.getElementById("codeSnippet");
+            code.select();
+            code.setSelectionRange(0, 99999); // For mobile support
+            navigator.clipboard.writeText(code.value)
+                .then(() => alert("✅ Code copied to clipboard!"))
+                .catch(err => alert("❌ Failed to copy code."));
+        }
+    </script>
+</body>
+</html>

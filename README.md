@@ -20,7 +20,7 @@ GitDecode is a lightweight SaaS tool that fetches Python code from GitHub using 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/gitdecode.git
+git clone https://github.com/sivadboon/gitdecode.git
 cd gitdecode
 ```
 
